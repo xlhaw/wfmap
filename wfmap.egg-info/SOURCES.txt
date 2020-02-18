@@ -1,0 +1,8 @@
+README.md
+setup.py
+wfmap/__init__.py
+wfmap.egg-info/PKG-INFO
+wfmap.egg-info/SOURCES.txt
+wfmap.egg-info/dependency_links.txt
+wfmap.egg-info/requires.txt
+wfmap.egg-info/top_level.txt

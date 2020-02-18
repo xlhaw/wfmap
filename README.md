@@ -1,12 +1,10 @@
-# Wafer Heatmap by Matplotlib & Seaborn
+# Wafer Heatmap Visualization
 
-Heatmap could be extremely useful when find 
+Heatmap sometime could be extremely useful, you can gain intuitive insight from the plot which contains   information on both location and distribution, and manage to find potential pattern behind it. 
 
-heatmap is implemented using seaborn and add add more feature(eg, inset, historgram, pra) and finetune the graphics using 
+This package is implemented on the top of _seaborn_, and further customized by _matplotlib_. It provides an easy way to visualize wafer map data, both numerical and categorical data are supported.
 
-This package use to 
-
-the module support both numerical and categorical data, No need to special, but you need to tran into pandas DataFrame object.
+Before you start, you should have some knowledge on _pandas_ and transform your data into `pd.DataFrame`, then make sure that positional data (x/row,y/col)  are included in separate columns and encoded as integer.
 
 
 
@@ -14,18 +12,24 @@ the module support both numerical and categorical data, No need to special, but 
 ## Installation
 
 
-To install the latest release via PyPI using pip::
+To install wfmap via PyPI using pip:
 
-    pip install wfmap
+```bash
+pip install wfmap
+```
+or build the latest release from Github:
+
+```bash
+git clone https://github.com/xlhaw/wfmap.git
+cd wfmap
+python setup.py install
+```
 
 
-Locally install
 
+## Basic Usage
 
-
-## Basic Usages
-
-For demonstration, I generate some dummy data under the `/data` folder. Let's load the data first and explore the usage of this package.
+For demonstration, I generate some dummy data under the `/data` folder. Let's load the data at first and explore the usage of this package.
 
 ```python
 import pandas as pd
@@ -33,7 +37,7 @@ from wfmap import wafermap
 data=pd.read_csv('/data/demo.csv')
 ```
 
-One row is one die data, 'MAP_ROW' and 'MAP_COL'  and 'CODE' column stands for the _Defect Code_  and 'DATA' stand for __ individual die.
+To better understand the data, take the first entry for example, it suggests that the _Die#0_ which located at `#11 ` row and `#60` col in wafer map, is `OK`  defined by _Defect Code_  and its _Metrics_ is `84.3`.
 
 
 
@@ -42,12 +46,12 @@ One row is one die data, 'MAP_ROW' and 'MAP_COL'  and 'CODE' column stands for t
 'MAP_ROW' and 'MAP_COL' are the default column name for wafer mapping.  If you have preprocessed your data as the same format as I did above. The command required could be as simple as follows:
 
 ```python
-wafermap(data,value='DATA')
+wafermap(data,value='DATA',dtype='num')
 ```
 
 ![DATA](/img/Figure_2.png)
 
-On the but the fine-tune Parameter(eg. bins, cmap) not provided so far.
+On the left side of  heatmap is the horizontal histogram plot of `DATA`, with colorized y-axis and invisible x-axis for visual aesthetics.
 
 
 
@@ -56,17 +60,17 @@ On the but the fine-tune Parameter(eg. bins, cmap) not provided so far.
 Similar to above numerical/continuous data, categorical data such as _Defect Code_ `CODE` can also be visualized as below.
 
 ```python
-wafermap(data,value='CODE')
+wafermap(data,value='CODE',dtype='cat')
 ```
 
 ![CODE](/img/Figure_1.png)
 
+In addition to the regular heatmap, I put the histogram subplot and pie chart inset on the right half. For the sake of simplicity, only the ratio of  top 5 categories will be annotated. 
+
+ 
 
 
-Considering that add limit to focus on the top
 
 
-
-See the `documentation <https://pythonhosted.org/wfmap>`.
 
 
