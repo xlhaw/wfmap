@@ -17,7 +17,7 @@ __homepage__ = 'https://github.com/xlhaw/wfmap'
 import seaborn as sb,matplotlib,matplotlib.pyplot as plt,numpy as np,pandas as pd
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 
-def wafermap(data,value,row='MAP_ROW',col='MAP_COL',code_dict=None,title=None,limit=14,**kwargs): #**arg as spec
+def wafermap(data,value,row='MAP_ROW',col='MAP_COL',dtype='cat',title=None,code_dict=None,limit=14,**kwargs): #**arg as spec
     '''
     Args
     -------
@@ -27,8 +27,12 @@ def wafermap(data,value,row='MAP_ROW',col='MAP_COL',code_dict=None,title=None,li
         value column
     row,col: string
         x,y coordinate column
+    dtype: string
+        support 'cat' and 'num' only
     title: string
         title for the plot
+    code_dict: dict
+        customized
     limit: int
         maximal category/color number for the plot
     kwargs : other keyword arguments
@@ -46,11 +50,11 @@ def wafermap(data,value,row='MAP_ROW',col='MAP_COL',code_dict=None,title=None,li
     ax1=plt.subplot(gs[0])
     ax2=plt.subplot(gs[1])
 
-    if df[value].dtype=='O':
+    if dtype=='cat':
         counts=df[value].value_counts()
         if not code_dict:
             code_dict,labels=category2num(counts,limit=limit)
-            df[value]=df[value].replace(code_dict) #14 blocks
+            df[value]=df[value].replace(code_dict) 
         else:
             labels=list(code_dict.keys())
 
@@ -77,12 +81,21 @@ def wafermap(data,value,row='MAP_ROW',col='MAP_COL',code_dict=None,title=None,li
         # Add histogram but exclude the most frequent category
         #ax2.barh(counts.index,counts,log=True,color=colors[:len(labels)])
         ax2.barh(counts.index[1:len(labels)],counts[1:len(labels)],color=colors[1:len(labels)])
+        for idx,patch in enumerate(ax2.patches):
+            if idx>4:
+                break
+            ratio=counts.iloc[idx+1]/counts.sum()
+            x,y=patch.get_xy()
+            width,height=patch.get_width(),patch.get_height()
+            ax2.annotate('{0:.1%}'.format(ratio),(x,y+height/4))
+        remark=counts.index[0]+':  {:.1%}'.format(counts.iloc[0]/counts.sum())
+        ax2.text(0.45, 0.75, remark,transform=ax2.transAxes)
         ax2.spines['top'].set_visible(False)
         ax2.spines['right'].set_visible(False)
         ax2.yaxis.set_visible(False)
         ax2.spines['left'].set_visible(False)
 
-    elif df[value].dtype in ['int','float','int64','float64','float32','float16']: 
+    elif dtype=='num': 
 
         # Customize continuous heatmap
         p10,p90=np.percentile(df[value].dropna(),[10,90])
@@ -112,7 +125,7 @@ def wafermap(data,value,row='MAP_ROW',col='MAP_COL',code_dict=None,title=None,li
     ax1.set_axis_off()
     plt.tight_layout()
     title=value if not title else title
-    plt.suptitle(value,x=0.52)
+    plt.suptitle(title,x=0.52)
     plt.subplots_adjust(top=0.92,wspace=0)
     #plt.savefig(title+'.jpg')
     return fig
