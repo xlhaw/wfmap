@@ -49,7 +49,8 @@ To better understand the data, take the first entry for example, it suggests tha
 wafermap(data,value='DATA',dtype='num')
 ```
 
-![DATA](/img/Figure_2.png)
+![DATA](/img/Figure_2.png)[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fxlhaw%2Fwfmap.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fxlhaw%2Fwfmap?ref=badge_shield)
+
 
 On the left side of  heatmap is the horizontal histogram plot of `DATA`, with colorized y-axis and invisible x-axis for visual aesthetics.
 
@@ -74,3 +75,7 @@ In addition to the regular heatmap, I put the histogram subplot and pie chart in
 
 
 
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fxlhaw%2Fwfmap.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fxlhaw%2Fwfmap?ref=badge_large)
