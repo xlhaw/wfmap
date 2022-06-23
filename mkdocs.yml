@@ -1,0 +1,115 @@
+site_name: WaferMap Documentation
+site_description: "WaferMap Package Documentation"
+repo_url: https://github.com/xlhaw/wfmap/
+site_url: https://wfmap.ml/
+edit_uri : ./edit/main/docs
+repo_name: 'xlhaw/wfmap'
+copyright: Copyright &copy; 2017 - 2022 Leon Xiao
+site_author: Leon Xiao
+
+theme:
+  name: material
+  icon:
+      repo: fontawesome/brands/github
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/weather-night
+        name: Switch to light mode      
+      
+nav:
+    - Getting Started:
+        - Installation:  index.md
+        - Data Wrangling: data.md
+        - Quick Examples: quickstart.md 
+    - GUI Application: gui.md
+    - API References: mkdocstring.md
+    - ChangeLog: Changelog.md
+    - Repository: 'https://github.com/xlhaw/wfmap/'
+    #- Jupter Notebook : Demo Usage.ipynb
+
+extra:
+  analytics:
+     provider: google
+     property: G-8FQ3JVBZ1X
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/xlhaw
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/xlhaw
+    - icon: fontawesome/brands/linkedin
+      link: https://linkedin.com/xlhaw
+    - icon: fontawesome/brands/instagram
+      link: https://instagram.com/xlhaw                  
+    - icon: fontawesome/solid/paper-plane
+      link: mailto:<i@xlhaw.com>
+
+markdown_extensions:
+    - smarty
+    - toc:
+        permalink: True
+    - sane_lists
+    - attr_list
+    - codehilite
+    - pymdownx.emoji:
+        emoji_index: !!python/name:materialx.emoji.twemoji
+        emoji_generator: !!python/name:materialx.emoji.to_svg
+        options:
+            custom_icons:
+                - site/overrides/.icons
+      
+use_directory_urls: True  
+plugins:
+  - search
+  - mermaid2
+  - mknotebooks
+  - mkdocstrings:
+      enable_inventory: false
+      custom_templates: templates
+      default_handler: python
+      handlers:
+        python:
+          options:
+            show_source: false               
+      watch:
+        - wfmap
+  - gallery:
+      conf_script: docs/gallery_conf.py  # Base conf. Possibly modified by items below
+      examples_dirs:
+        - docs/examples          # path to your example scripts, relative to mkdocs.yml
+      gallery_dirs:
+        - docs/generated/gallery  # where to save gallery generated output. Note that you may or may not include them in
+      backreferences_dir: docs/generated/backreferences  # where to generate the back references summary
+      doc_module: ['mkdocs_gallery', 'numpy']
+      # reference_url: {sphinx_gallery: None},
+      image_scrapers: matplotlib
+      compress_images: ['images', 'thumbnails']
+      within_subsection_order: FileNameSortKey
+#      min_reported_time: min_reported_time,  in conf file
+      binder:
+        org: smarie
+        repo: mkdocs-gallery
+        branch: gh-pages  # Use a branch that hosts your docs.
+#        binderhub_url: https://mybinder.org
+        dependencies: docs/requirements.txt  # binder configuration files
+        # see https://mybinder.readthedocs.io/en/latest/using/config_files.html#config-files
+        # these will be copied to the .binder/ directory of the site.
+        notebooks_dir: notebooks  # Notebooks for Binder will be copied to this dir (relative to built doc root).
+        use_jupyter_lab: True     # Binder links will start Jupyter Lab instead of the Jupyter Notebook interface.
+      show_memory: True
+      matplotlib_animations: True
+      image_srcset: ['2x']        
+
+extra_javascript:
+  - https://unpkg.com/mermaid/dist/mermaid.min.js
+  - javascripts/mathjax.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+extra_css:
+  - css/mkdocstrings.css

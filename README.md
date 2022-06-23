@@ -1,22 +1,25 @@
-# Wafer Heatmap Visualization
+# WaferMap Visualization with Heatmap and Trend Charts
 
-Heatmap sometime could be extremely useful, you can gain intuitive insight from the plot which contains   information on both location and distribution, and manage to find potential pattern behind it. 
+This package heavily depends upon **_matplotlib_** & **_seaborn_**. It provides simple wafer heatmap for numerical & categorical variables, as well as highly customized trend charts regarding to different wafer shot map definitions. You can built your own wafermap on the top of the API provided.
 
-This package is implemented on the top of _seaborn_, and further customized by _matplotlib_. It provides an easy way to visualize wafer map data, both numerical and categorical data are supported.
+> This package only tested under Windows, the aesthetics of charts might be slightly different under Mac/Linux.
 
-Before you start, you should have some knowledge on _pandas_ and transform your data into `pd.DataFrame`, then make sure that positional data (x/row,y/col)  are included in separate columns and encoded as integer.
+## Example Gallery
 
+This gallery contains a selection of examples of the plots _**wfmap**_ can create. _Advanced Usages_ and _API Reference_ please refer to the [Online Docs](https://wfmap.ml) (WIP)
 
+<img src="https://raw.githubusercontent.com/xlhaw/wfmap/master/docs/img/DefectMap.png" width="50%"></img> <img src="https://raw.githubusercontent.com/xlhaw/wfmap/master/docs/img/WaferMap.png" width="50%"></img> <img src="https://raw.githubusercontent.com/xlhaw/wfmap/master/docs/img/WIF_Trend.png" width="50%"></img> <img src="https://raw.githubusercontent.com/xlhaw/wfmap/master/docs/img/Twin_Trends.png" width="50%"></img> 
+
+<img src="https://raw.githubusercontent.com/xlhaw/wfmap/master/docs/img/IncomingMap.png"></img> 
 
 
 ## Installation
-
-
-To install wfmap via PyPI using pip:
+To install _**wfmap**_ via PyPI using pip:
 
 ```bash
 pip install wfmap
 ```
+
 or build the latest release from Github:
 
 ```bash
@@ -25,57 +28,54 @@ cd wfmap
 python setup.py install
 ```
 
-
-
 ## Basic Usage
 
-For demonstration, I generate some dummy data under the `/data` folder. Let's load the data at first and explore the usage of this package.
+Before you get started, please have a look at the definition used in this package for wafer mapping. You can modify the configuration to meet your requirement.
+
+![Definition](/docs/img/definition.png)
+
+Sample data is shipped with this packages, you can load it with the following snippet.
+```python
+from wfmap.data import load_data
+data=load_data()
+```
+
+
+**BasePlot**
+
+`num_heatmap` and `cat_heatmap` are core functions used to generate `matplotlib.axes`, dealing with numerical & categorical variables respectively. Remain functions provides in packages return `matplotlib.figure.Figure` instead.
 
 ```python
-import pandas as pd
+from wfmap import num_heatmap,cat_heatmap
+fig,axs=plt.subplots(1,2,figsize=(8,3))
+_=num_heatmap(data,'MRR',ax=axs[0])
+_=cat_heatmap(data,'DEFECT',ax=axs[1])
+#fig.savefig('BasePlot.png',dpi=200)
+```
+![CODE](/docs/img/BasePlot.png)
+
+
+**WaferMap**
+WaferMap is a customized plot for numerical variables built with `num_heatmap`, beside the basic heatmap, an horizontal distribution plot sits along with the colorbar. For full details please refer to the `API Reference`.
+```python
 from wfmap import wafermap
-data=pd.read_csv('/data/demo.csv')
+fig=wafermap(data,'HDI_R',wtype='UP3')
 ```
 
-To better understand the data, take the first entry for example, it suggests that the _Die#0_ which located at `#11 ` row and `#60` col in wafer map, is `OK`  defined by _Defect Code_  and its _Metrics_ is `84.3`.
+![CODE](/docs/img/WaferMap.png)
 
 
-
-**Numerical Data**
-
-'MAP_ROW' and 'MAP_COL' are the default column name for wafer mapping.  If you have preprocessed your data as the same format as I did above. The command required could be as simple as follows:
-
+**DefectMap**
+DefectMap is a customized plot for categorical variables using `cat_heatmap`, which put additional pareto histogram and pie chart aside. For full details please refer to the `API Reference`.
 ```python
-wafermap(data,value='DATA',dtype='num')
+from wfmap import defectmap
+fig=defectmap(data,'DEFECT')
 ```
-
-![DATA](/img/Figure_2.png)[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fxlhaw%2Fwfmap.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fxlhaw%2Fwfmap?ref=badge_shield)
-
-
-On the left side of  heatmap is the horizontal histogram plot of `DATA`, with colorized y-axis and invisible x-axis for visual aesthetics.
-
-
-
-**Categorical Data **
-
-Similar to above numerical/continuous data, categorical data such as _Defect Code_ `CODE` can also be visualized as below.
-
-```python
-wafermap(data,value='CODE',dtype='cat')
-```
-
-![CODE](/img/Figure_1.png)
-
-In addition to the regular heatmap, I put the histogram subplot and pie chart inset on the right half. For the sake of simplicity, only the ratio of  top 5 categories will be annotated. 
-
- 
-
-
-
-
+![CODE](/docs/img/DefectMap.png)
 
 
 
 
 ## License
+
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fxlhaw%2Fwfmap.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fxlhaw%2Fwfmap?ref=badge_large)
