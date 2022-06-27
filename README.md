@@ -32,7 +32,7 @@ python setup.py install
 
 Before you get started, please have a look at the definition used in this package for wafer mapping. You can modify the configuration to meet your requirement.
 
-![Definition](/docs/img/definition.png)
+<img src="https://raw.githubusercontent.com/xlhaw/wfmap/master/docs/img/definition.png"></img>
 
 Sample data is shipped with this packages, you can load it with the following snippet.
 ```python
@@ -52,8 +52,8 @@ _=num_heatmap(data,'MRR',ax=axs[0])
 _=cat_heatmap(data,'DEFECT',ax=axs[1])
 #fig.savefig('BasePlot.png',dpi=200)
 ```
-![CODE](/docs/img/BasePlot.png)
 
+<img src="https://raw.githubusercontent.com/xlhaw/wfmap/master/docs/img/BasePlot.png"></img>
 
 **WaferMap**
 WaferMap is a customized plot for numerical variables built with `num_heatmap`, beside the basic heatmap, an horizontal distribution plot sits along with the colorbar. For full details please refer to the `API Reference`.
@@ -62,7 +62,7 @@ from wfmap import wafermap
 fig=wafermap(data,'HDI_R',wtype='UP3')
 ```
 
-![CODE](/docs/img/WaferMap.png)
+<img src="https://raw.githubusercontent.com/xlhaw/wfmap/master/docs/img/WaferMap.png"></img>
 
 
 **DefectMap**
@@ -71,7 +71,7 @@ DefectMap is a customized plot for categorical variables using `cat_heatmap`, wh
 from wfmap import defectmap
 fig=defectmap(data,'DEFECT')
 ```
-![CODE](/docs/img/DefectMap.png)
+<img src="https://raw.githubusercontent.com/xlhaw/wfmap/master/docs/img/DefectMap.png"></img>
 
 
 
