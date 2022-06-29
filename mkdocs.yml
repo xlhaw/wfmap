@@ -25,12 +25,12 @@ theme:
       
 nav:
     - Getting Started:
-        - Installation:  index.md
+        - Home:  index.md
         - Data Wrangling: data.md
-        - Quick Examples: quickstart.md 
+        - Gallery of examples: generated/gallery   
     - GUI Application: gui.md
-    - API References: mkdocstring.md
-    - ChangeLog: Changelog.md
+    - API Reference: docstrings.md
+    - ChangeLog: changelog.md
     - Repository: 'https://github.com/xlhaw/wfmap/'
     #- Jupter Notebook : Demo Usage.ipynb
 
@@ -67,8 +67,8 @@ markdown_extensions:
 use_directory_urls: True  
 plugins:
   - search
-  - mermaid2
-  - mknotebooks
+  #- mermaid2
+  #- mknotebooks
   - mkdocstrings:
       enable_inventory: false
       custom_templates: templates
@@ -108,7 +108,6 @@ plugins:
 
 extra_javascript:
   - https://unpkg.com/mermaid/dist/mermaid.min.js
-  - javascripts/mathjax.js
   - https://polyfill.io/v3/polyfill.min.js?features=es6
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
 extra_css:

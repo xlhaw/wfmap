@@ -1,6 +1,6 @@
 
-__version_info__ = ('1', '0', '1', 'dev')
-__date__ = '24 June 2022'
+__version_info__ = ('1', '0', '2', 'dev')
+__date__ = '29 June 2022'
 __version__ = '.'.join(__version_info__)
 __author__ = 'Leon Xiao'
 __contact__ = 'i@xlhaw.com'
@@ -45,7 +45,7 @@ def base_axe(plot_fn):
     return wrapped
 
 
-def auto_vlim(series, majority=96, n_sigma=3, vsigma=None, vrange=None):
+def auto_vlim(series, majority=94, n_sigma=3, vsigma=None, vrange=None):
     """
     Infer the best range of a series for plotting
     """
@@ -208,7 +208,7 @@ def _cat_counts(df, item, qty_limit=10, code_dict=None):
         return counts, list(counts.index), cat2num
 
 
-def create_incmap(df, vsigmas={'ELG_RES': 0.2, 'WELG_RES': 0.2, 'MR': 10, 'PCM': 5, 'OSR': 1}, title='None'):
+def create_incmap(df, vsigmas={'ELG_RES': 0.2, 'WELG_RES': 0.2, 'MR': 10, 'PCM': 5, 'OSR': 1}, title=None):
     """Create Combined Wafermaps with Incoming Data
 
     Args:
@@ -280,6 +280,8 @@ def wafermap(df, value, row='MAP_ROW', col='MAP_COL', title=None, vrange=None, v
         vtrend.set_yticks(v_boundary)
         htrend.set_ylim(vlim)
         vtrend.set_xlim(vlim)
+        htrend.grid(axis='x', linestyle='--')
+        vtrend.grid(axis='y', linestyle='--')
     plt.subplots_adjust(hspace=0.01, wspace=0.02, top=0.95)
     if title:
         plt.suptitle(title, fontsize=18)
@@ -367,7 +369,6 @@ def _tweak_trend(axes, n=2, x='WIF_COL', yn='FF_ROW', xn='FF_COL', xlim=(0, 24),
     for (row, col), (ax, axt) in axes.items():
         ax.set_xlim(xlim)
         ax.set_xlabel(None)
-        ax.grid(None)
         if ylim:
             ax.set_ylim(ylim)
         if col != 1:
@@ -379,13 +380,14 @@ def _tweak_trend(axes, n=2, x='WIF_COL', yn='FF_ROW', xn='FF_COL', xlim=(0, 24),
         else:
             ax.set_xticks(xticks)
         if twin:
-            axt.grid(None)
             if col != max_col:
                 axt.yaxis.set_visible(False)
             else:
                 _ = [tick.set_rotation(0)for tick in axt.get_yticklabels()]
             if tylim:
                 axt.set_ylim(tylim)
+            axt.grid(False)
+        ax.grid(False)
     plt.tight_layout()
     ax = axes[(max_row, max_col//2)][0]
     ax.text(0.5, -0.5, x, transform=ax.transAxes)
