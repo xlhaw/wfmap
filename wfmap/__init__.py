@@ -262,7 +262,7 @@ def wafermap(df, value, row='MAP_ROW', col='MAP_COL', title=None, vrange=None, v
     hmap = plt.subplot(gs[0, 1:3])
     vbar = plt.subplot(gs[0, 3])
     vlim = auto_vlim(df[value], vrange=vrange, vsigma=vsigma)
-    num_heatmap(df, value, ax=hmap, vlim=vlim)
+    num_heatmap(df, value, ax=hmap, vlim=vlim, row=row, col=col)
     _color_distplot(df, value, ax=vbar, vlim=vlim)
     if wftype:
         vtrend = plt.subplot(gs[0, 0])
