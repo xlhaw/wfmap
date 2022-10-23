@@ -1,13 +1,27 @@
 # Changelogs
 
-All notable changes to the wfmap package will be documented in this file.
+All notable changes to the `wfmap` package will be documented in this file.
+
+## [1.0.3]
+
+### Bug Fixes
+
+- Fix matplotlib warning
+- Fix  Thanks
+- Fix legend display issue in `wif_trends` and add limitation on max plot items
+
+### Features
+
+- Add new param `majority` in `wif_trend` for  control
+- Add `wif_corrplot` for correlation plot
+- Documentation Online
 
 ## [1.0.2]
 
 ### Bug Fixes
 
-- Unify the grid lines behaviors when applied with other matplotlib styles
-- fix default title of create_incmap to None
+- Unify the behaviors of grid lines when different matplotlib styles were applied
+- Fix default title of `create_incmap` to None
 
 ## [1.0.0]
 
@@ -19,7 +33,7 @@ All notable changes to the wfmap package will be documented in this file.
 
 ### Changed
 
-- Refactor original wafermap function to num_heatmap & cat_heatmap by numerical & categorical variables respectively
+- Refactor original `wafermap` function to `num_heatmap` & `cat_heatmap` by numerical & categorical variables respectively
 - Improve the documentation and tutorials  :vulcan_salute:
 
 ## [0.0.7]

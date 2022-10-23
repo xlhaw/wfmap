@@ -1,19 +1,18 @@
 # WaferMap Visualization with Heatmap and Trend Charts
 
-This package heavily depends upon **_matplotlib_** & **_seaborn_**. It provides simple wafer heatmap for numerical & categorical variables, as well as highly customized trend charts regarding to different wafer shot map definitions. You can built your own wafermap on the top of the API provided.
+This package is built upon **_matplotlib_** & **_seaborn_**. It provides basic wafer heatmap for numerical & categorical variables, as well as highly customized trend charts regarding to different wafer shot map definitions. You can built your own wafermap on the top of the API provided.
 
 > This package only tested under Windows, the aesthetics of charts might be slightly different under Mac/Linux.
 
 ## Example Gallery
 
-This gallery contains a selection of examples of the plots _**wfmap**_ can create. _Advanced Usages_ and _API Reference_ please refer to the [Online Docs](https://wfmap.ml) (WIP)
+This gallery contains a selection of examples of the plots _**wfmap**_ created. _Basic Usages_ and _API Reference_ please refer to the [Online Docs](https://wfmap.ml).
 
-<img src="https://raw.githubusercontent.com/xlhaw/wfmap/master/docs/img/DefectMap.png" width="50%"></img> <img src="https://raw.githubusercontent.com/xlhaw/wfmap/master/docs/img/WaferMap.png" width="50%"></img> <img src="https://raw.githubusercontent.com/xlhaw/wfmap/master/docs/img/WIF_Trend.png" width="50%"></img> <img src="https://raw.githubusercontent.com/xlhaw/wfmap/master/docs/img/Twin_Trends.png" width="50%"></img> 
-
+<img src="https://raw.githubusercontent.com/xlhaw/wfmap/master/docs/img/DefectMap.png" width="56.5%"></img><img src="https://raw.githubusercontent.com/xlhaw/wfmap/master/docs/img/WIF_Trend.png" width="43.1%"></img>  <img src="https://raw.githubusercontent.com/xlhaw/wfmap/master/docs/img/WaferMap.png" width="54.6%"></img> <img src="https://raw.githubusercontent.com/xlhaw/wfmap/master/docs/img/Twin_Trends.png" width="44.4%"></img> 
 <img src="https://raw.githubusercontent.com/xlhaw/wfmap/master/docs/img/IncomingMap.png"></img> 
 
-
 ## Installation
+
 To install _**wfmap**_ via PyPI using pip:
 
 ```bash
@@ -30,18 +29,20 @@ python setup.py install
 
 ## Basic Usage
 
-Before you get started, please have a look at the definition used in this package for wafer mapping. You can modify the configuration to meet your requirement.
+Before you get started, please have a look at the definition used in this package for wafer mapping. You can modify it refer to your own terminology.
 
 <img src="https://raw.githubusercontent.com/xlhaw/wfmap/master/docs/img/definition.png"></img>
 
-Sample data is shipped with this packages, you can load it with the following snippet.
+Sample data is shipped within this package, you can load it as following snippet:
+
 ```python
 from wfmap.data import load_data
 data=load_data()
 ```
 
+<img src="https://raw.githubusercontent.com/xlhaw/wfmap/master/docs/img/DemoData.png"></img>
 
-**BasePlot**
+### BasePlot
 
 `num_heatmap` and `cat_heatmap` are core functions used to generate `matplotlib.axes`, dealing with numerical & categorical variables respectively. Remain functions provides in packages return `matplotlib.figure.Figure` instead.
 
@@ -55,8 +56,10 @@ _=cat_heatmap(data,'DEFECT',ax=axs[1])
 
 <img src="https://raw.githubusercontent.com/xlhaw/wfmap/master/docs/img/BasePlot.png"></img>
 
-**WaferMap**
-WaferMap is a customized plot for numerical variables built with `num_heatmap`, beside the basic heatmap, an horizontal distribution plot sits along with the colorbar. For full details please refer to the `API Reference`.
+### WaferMap
+
+WaferMap is a customized plot for numerical variables built with `num_heatmap`, beside the basic heatmap, an horizontal distribution plot sits along with the colorbar. For full details please refer to the [API Reference](https://wfmap.ml).
+
 ```python
 from wfmap import wafermap
 fig=wafermap(data,'HDI_R',wtype='UP3')
@@ -65,14 +68,16 @@ fig=wafermap(data,'HDI_R',wtype='UP3')
 <img src="https://raw.githubusercontent.com/xlhaw/wfmap/master/docs/img/WaferMap.png"></img>
 
 
-**DefectMap**
+### DefectMap
+
 DefectMap is a customized plot for categorical variables using `cat_heatmap`, which put additional pareto histogram and pie chart aside. For full details please refer to the `API Reference`.
+
 ```python
 from wfmap import defectmap
 fig=defectmap(data,'DEFECT')
 ```
-<img src="https://raw.githubusercontent.com/xlhaw/wfmap/master/docs/img/DefectMap.png"></img>
 
+<img src="https://raw.githubusercontent.com/xlhaw/wfmap/master/docs/img/DefectMap.png"></img>
 
 
 

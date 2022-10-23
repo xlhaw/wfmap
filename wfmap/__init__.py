@@ -1,6 +1,6 @@
 
-__version_info__ = ('1', '0', '2', 'dev')
-__date__ = '29 June 2022'
+__version_info__ = ('1', '0', '3')
+__date__ = '21 October 2022'
 __version__ = '.'.join(__version_info__)
 __author__ = 'Leon Xiao'
 __contact__ = 'i@xlhaw.com'
@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 from matplotlib import colors as mcolors
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 
-__all__ = ['num_heatmap', 'cat_heatmap', 'create_incmap',
+__all__ = ['num_heatmap', 'cat_heatmap', 'create_incmap', 'wif_corrplot',
            'wafermap', 'defectmap', 'wif_trend', 'wif_trends', 'twin_trends']
 
 plt.style.use('ggplot')
@@ -74,8 +74,8 @@ def num_heatmap(df, value, row='MAP_ROW', col='MAP_COL', cmap='jet', title=None,
         cmap (str, optional): ColorMap
         title (str, optional): Title
         vlim (tuple, optional): (zmin,zmax) limits of the colorbar, will ignore the vsigma/vrange if provided
-        zsigma (float, optional): colorbar range is median±3*vsigma if vsigma is provided    
-        vrange (float, optional): Range of the colorbar, works when vlim is not available and ignore the zsigma
+        vsigma (float, optional): colorbar range is center mean±3*vsigma if vsigma is provided
+        vrange (float, optional): Range of the colorbar, works when vlim is not available and ignore the vsigma
         ax (matplotlib.axes, optional): Axe to plot on
 
     Returns:
@@ -138,7 +138,7 @@ def cat_heatmap(df, item, row='MAP_ROW', col='MAP_COL', title=None, code_dict=No
 @base_axe
 def _color_distplot(df, value, vertical=False, n_bin=60, vlim=None, vrange=None, ax=None):
     """
-    Distribution plot for continous variable
+    Distribution plot for continuous variable
     """
     orient = 'vertical' if vertical else 'horizontal'
     vlim = auto_vlim(df[value], vrange=vrange) if vlim == None else vlim
@@ -159,10 +159,6 @@ def _color_barplot(counts, colors, annotate=True, ax=None, title=None):
     Distribution plot for discrete variable
     '''
     labels = list(counts.index)
-    axins = inset_axes(ax, width="90%", height='60%', bbox_to_anchor=(
-        0.4, 0.5, 0.8, 0.5), bbox_transform=ax.transAxes, borderpad=0)  # [left, bottom, width, height]
-    explode = np.linspace(0, 0.42, len(labels))
-    axins.pie(counts, explode=explode, startangle=180, colors=colors)
     ax.barh(counts.index[1:len(labels)],
             counts[1:len(labels)], color=colors[1:len(labels)])
     _, xmax = ax.get_xlim()
@@ -182,6 +178,13 @@ def _color_barplot(counts, colors, annotate=True, ax=None, title=None):
     ax.set_ylim(-1.5, len(labels)-1.5)
     ax.set_facecolor('white')
     ax.set_title(title) if title != None else None
+
+    plt.tight_layout()  # call before the inset_axes
+    # Pie chart inset
+    axins = inset_axes(ax, width="90%", height='60%', bbox_to_anchor=(
+        0.4, 0.5, 0.8, 0.5), bbox_transform=ax.transAxes, borderpad=0)  # [left, bottom, width, height]
+    explode = np.linspace(0, 0.42, len(labels))
+    axins.pie(counts, explode=explode, startangle=180, colors=colors)
     return ax
 
 
@@ -213,7 +216,7 @@ def create_incmap(df, vsigmas={'ELG_RES': 0.2, 'WELG_RES': 0.2, 'MR': 10, 'PCM':
 
     Args:
         df (pd.DataFrame): Wafer Data
-        sigmas (dict, optional): {'item': float} Preset sigmas for vrange estimation
+        vsigmas (dict, optional): {'item': float} Preset sigmas for vrange estimation
         title (str, optional): Title
 
     Returns:
@@ -249,8 +252,8 @@ def wafermap(df, value, row='MAP_ROW', col='MAP_COL', title=None, vrange=None, v
         row (str, optional): Wafer Map Row (Y Coordinate)
         col (str, optional): Wafer Map Col (X Coordinate)
         title (str, optional): Title
-        vrange (float, optional):  Range of Y-axis
-        vsigma (float, optional): color bar range is median±3*vsigma if vsigma is provided
+        vrange (float, optional):  Range of Y-axis/Colorbar, will overide the vsigma setting
+        vsigma (float, optional): color bar range is center mean±3*vsigma if vsigma is provided
         wftype (str, optional): _Wafer Layout Type_, Plot additional trend chart if provided
 
     Returns:
@@ -282,19 +285,21 @@ def wafermap(df, value, row='MAP_ROW', col='MAP_COL', title=None, vrange=None, v
         vtrend.set_xlim(vlim)
         htrend.grid(axis='x', linestyle='--')
         vtrend.grid(axis='y', linestyle='--')
+    plt.tight_layout()
     plt.subplots_adjust(hspace=0.01, wspace=0.02, top=0.95)
     if title:
         plt.suptitle(title, fontsize=18)
     return fig
 
 
-def defectmap(df, defect_col, ok_codes=['OK', 'BINA'], row='MAP_ROW', col='MAP_COL', qty_limit=10, colors=DEFECT_COLORS, title=None):
+def defectmap(df, defect_col, ok_codes=['OK', 'BINA'], code_dict=None, row='MAP_ROW', col='MAP_COL', qty_limit=10, colors=DEFECT_COLORS, title=None):
     """Create Wafer DefectMap
 
     Args:
         df (pd.DataFrame): Wafer Data
         defect_col (str): Column name of the defect code
         ok_codes (list, optional): list of code being treated as 'OK'
+        code_dict (dict, optional): {'orignal':'new_code'} Replace original code with code_dict
         row (str, optional): Wafer Map Row (Y Coordinate)
         col (str, optional): Wafer Map Col (X Coordinate)
         qty_limit (int, optional): add restrictions on the total unique variables to show in the plot
@@ -305,7 +310,10 @@ def defectmap(df, defect_col, ok_codes=['OK', 'BINA'], row='MAP_ROW', col='MAP_C
         fig (matplotlib.figure.Figure):  Figure
     """
     df[defect_col] = df[defect_col].astype(str)
-    code_dict = {code: 'OK' for code in ok_codes}
+    if code_dict:
+        code_dict.update({code: 'OK' for code in ok_codes})
+    else:
+        code_dict = {code: 'OK' for code in ok_codes}
 
     fig = plt.figure(figsize=(10, 8))
     gs = fig.add_gridspec(1, 2, width_ratios=[10, 2])
@@ -313,10 +321,10 @@ def defectmap(df, defect_col, ok_codes=['OK', 'BINA'], row='MAP_ROW', col='MAP_C
     ax2 = plt.subplot(gs[1])
 
     _, counts, labels, _ = cat_heatmap(
-        df, defect_col, qty_limit=qty_limit, code_dict=code_dict, ax=ax1, verbose=True)
+        df, defect_col, qty_limit=qty_limit, code_dict=code_dict, ax=ax1, verbose=True, colors=colors)
     _color_barplot(counts, colors[:len(labels)], ax=ax2)
 
-    plt.tight_layout()
+    # plt.tight_layout()
     title = defect_col if not title else title
     plt.suptitle(title, x=0.52, fontsize=18)
     plt.subplots_adjust(top=0.92, wspace=0)
@@ -333,14 +341,21 @@ def _new_wafer_fig(wftype, ff_shape={'UP': (6, 8), 'UP2': (8, 8), 'UP3': (8, 8),
     return fig, gs
 
 
-def _base_trend(df, y, fig, gs, ty=None, color=None, tcolor=None,
+def _base_trend(df, y, fig, gs, ty=None, color=None, tcolor=None, axes={},
                 x='WIF_COL', xn='FF_COL', yn='FF_ROW', method='median', style='.'):
     """
     Create Trend Charts by Flash Field
     """
-    axes = {}
     for (row, col), ff in df.groupby([yn, xn]):
-        ax = plt.subplot(gs[int(row-1), int(col-1)])
+        try:
+            ax, axt = axes[(row, col)]
+            if ty and axt == None:
+                axt = ax.twinx()
+                axes[(row, col)] = (ax, axt)
+        except KeyError:
+            ax = fig.add_subplot(gs[int(row-1), int(col-1)])
+            axt = ax.twinx() if ty else None
+            axes[(row, col)] = (ax, axt)
         # ax.text(0.05,0.85,f'FF{int(row)}{int(col)}',transform=ax.transAxes,fontsize=7) #optional
         if len(ff.dropna(subset=[y])) > 2:
             ytrend = ff.groupby(x).agg(method)[y]
@@ -348,18 +363,14 @@ def _base_trend(df, y, fig, gs, ty=None, color=None, tcolor=None,
         else:
             ax.plot()
         if ty:
-            axt = ax.twinx()
             tytrend = ff.groupby(x).agg(method)[ty]
-            if abs(tytrend.mean()) >= 0:
-                tytrend.plot(ax=axt, style=style, color=tcolor,
-                             label=ty, legend=None)
-            axes[(row, col)] = (ax, axt)
-        else:
-            axes[(row, col)] = (ax, None)
+            tytrend.plot(ax=axt, style=style, color=tcolor,
+                         label=ty, legend=None)
+
     return axes
 
 
-def _tweak_trend(axes, n=2, x='WIF_COL', yn='FF_ROW', xn='FF_COL', xlim=(0, 24),
+def _tweak_trend(axes, x='WIF_COL', yn='FF_ROW', xn='FF_COL', xlim=(0, 24),
                  xticks=[8, 16], ylim=None, tylim=None, twin=False, title=None):
     """
     Tweak Subplots for Trend Charts
@@ -377,7 +388,7 @@ def _tweak_trend(axes, n=2, x='WIF_COL', yn='FF_ROW', xn='FF_COL', xlim=(0, 24),
             _ = [tick.set_rotation(0)for tick in ax.get_yticklabels()]
         if row != max_row:
             ax.xaxis.set_visible(False)
-        else:
+        elif xticks:
             ax.set_xticks(xticks)
         if twin:
             if col != max_col:
@@ -394,7 +405,7 @@ def _tweak_trend(axes, n=2, x='WIF_COL', yn='FF_ROW', xn='FF_COL', xlim=(0, 24),
     ax = axes[(1, max_col-2)][0]
     handles, labels = _get_legend(axes)
     ax.legend(handles, labels, bbox_to_anchor=(1, 1), facecolor='white',
-              loc=2, borderaxespad=0., fontsize=12)
+              loc=2, borderaxespad=0., fontsize=10)  # 12 3items, 10 4items
     plt.suptitle(title) if title != None else None
     plt.subplots_adjust(hspace=0, wspace=0, top=0.95, bottom=0.08)
 
@@ -405,6 +416,7 @@ def _get_legend(axes):
     """
     n_label = 0
     n_tlabel = 0
+    handles, labels = [], []  # fixed in case no legend
     for _, (ax, axt) in axes.items():
         h, l = ax.get_legend_handles_labels()
         if len(l) > n_label:
@@ -421,7 +433,7 @@ def _get_legend(axes):
     return handles, labels
 
 
-def wif_trend(df, y, x='WIF_COL', yn='FF_ROW', xn='FF_COL', wftype='UP2',
+def wif_trend(df, y, x='WIF_COL', yn='FF_ROW', xn='FF_COL', wftype='UP2', majority=90,
               method='median', title=None, ylim=None, yrange=None, color='b', style='.'):
     """Create Wafer Trend Chart by Flash Field
 
@@ -431,10 +443,11 @@ def wif_trend(df, y, x='WIF_COL', yn='FF_ROW', xn='FF_COL', wftype='UP2',
         x (str, optional): Column name(and x_label) of x-axis
         yn (str, optional): Y Coordinate of Flash Field/Subplot
         xn (str, optional): X Coordinate of Flash Field/Subplot
-        wftype (str, optional): _Wafer Layout Type_  ['UP'|'UP2'|'UP3'|'UP2E'|'UP3E']       
+        wftype (str, optional): _Wafer Layout Type_  ['UP'|'UP2'|'UP3'|'UP2E'|'UP3E']
+        majority (int, optional):  Center Percentage of Population used for Estimation
         method (str, optional): 'mean' or 'median' Trend
         title (str, optional): Title
-        ylim (tuple, optional): (ymin:float,ymax:float)        
+        ylim (tuple, optional): (ymin:float,ymax:float)
         yrange (float, optional):  Range of Y-axis, ignored if ylim is provided
         color (str, optional): Color of the trend line
         style (str, optional): Style of the trend line
@@ -445,24 +458,24 @@ def wif_trend(df, y, x='WIF_COL', yn='FF_ROW', xn='FF_COL', wftype='UP2',
     fig, gs = _new_wafer_fig(wftype)
     if ylim == None:
         ylim = auto_vlim(df[y], vrange=yrange)
-    axes = _base_trend(df, y, fig, gs, method=method,
+    axes = _base_trend(df, y, fig, gs, method=method, axes={},
                        color=color, style=style)
 
-    def quantile(df, y, quantile=0.5):
-        return np.quantile(df[y].dropna(), quantile) if len(df[y].dropna()) >= 1 else np.nan
-
-    for (row, col), (ax, _) in axes.items():
-        # df.query(f'{xn}=={col} and {yn}=={row}')
-        ff = df[(df[xn] == col) & (df[yn] == row)]
-        if len(ff.dropna(subset=[y])) > 2:
-            q1 = ff.groupby(x).apply(quantile, y, 0.25)
-            q3 = ff.groupby(x).apply(quantile, y, 0.75)
-            quantiles = pd.concat([q1, q3], axis=1).reset_index()
-            ax.fill_between(quantiles.iloc[:, 0],
-                            quantiles.iloc[:, 1],
-                            quantiles.iloc[:, 2],
-                            color='orange', alpha=0.5)
-
+    def percentile(df, y, p):
+        return np.percentile(df[y].dropna(), p) if len(df[y].dropna()) >= 1 else np.nan
+    if majority:
+        ll, ul = (100-majority)/2, (100+majority)/2
+        for (row, col), (ax, _) in axes.items():
+            # df.query(f'{xn}=={col} and {yn}=={row}')
+            ff = df[(df[xn] == col) & (df[yn] == row)]
+            if len(ff.dropna(subset=[y])) > 2:
+                q1 = ff.groupby(x).apply(percentile, y, ll)
+                q3 = ff.groupby(x).apply(percentile, y, ul)
+                quantiles = pd.concat([q1, q3], axis=1).reset_index()
+                ax.fill_between(quantiles.iloc[:, 0],
+                                quantiles.iloc[:, 1],
+                                quantiles.iloc[:, 2],
+                                color='orange', alpha=0.5)
     _tweak_trend(axes, ylim=ylim, title=title)
     return fig
 
@@ -476,19 +489,21 @@ def wif_trends(df, ys, x='WIF_COL', yn='FF_ROW', xn='FF_COL', wftype='UP2',
         x (str, optional): Column name(and x_label) of x-axis
         yn (str, optional): Y Coordinate of Flash Field/Subplot
         xn (str, optional): X Coordinate of Flash Field/Subplot
-        wftype (str, optional): _Wafer Layout Type_  ['UP'|'UP2'|'UP3'|'UP2E'|'UP3E']        
+        wftype (str, optional): _Wafer Layout Type_  ['UP'|'UP2'|'UP3'|'UP2E'|'UP3E']
         method (str, optional): 'mean' or 'median' Trend
         title (str, optional): Title
-        ylim (tuple, optional): (ymin:float,ymax:float)        
+        ylim (tuple, optional): (ymin:float,ymax:float)
         yrange (float, optional):  Range of Y-axis, ignored if ylim is provided
 
     Returns:
         fig (matplotlib.figure.Figure):  Figure
     """
+    assert len(ys) < 5, 'Up to 4 Variables Only'
     fig, gs = _new_wafer_fig(wftype)
+    axes = {}
     for i, y in enumerate(ys):
         axes = _base_trend(df, y, fig, gs,
-                           color=TAB10_COLOR[i], method=method)
+                           color=TAB10_COLOR[i], axes=axes, method=method)
     if ylim == None:
         ylim = auto_vlim(df[ys].stack(), vrange=yrange)
     _tweak_trend(axes, ylim=ylim, title=title)
@@ -496,7 +511,7 @@ def wif_trends(df, ys, x='WIF_COL', yn='FF_ROW', xn='FF_COL', wftype='UP2',
 
 
 def twin_trends(df, y, ty, x='WIF_COL', yn='FF_ROW', xn='FF_COL', wftype='UP2',
-                method='median', title=None, yrange=None, tyrange=None, keep_rng=True):
+                method='median', title=None, yrange=None, tyrange=None, fix_scale=True):
     """Create Wafer Trend Charts by Flash Field (when two variables have very different ranges)
 
     Args:
@@ -506,12 +521,12 @@ def twin_trends(df, y, ty, x='WIF_COL', yn='FF_ROW', xn='FF_COL', wftype='UP2',
         x (str, optional): Column name(and x_label) of x-axis
         yn (str, optional): Y Coordinate of Flash Field/Subplot
         xn (str, optional): X Coordinate of Flash Field/Subplot
-        wftype (str, optional): _Wafer Layout Type_  ['UP'|'UP2'|'UP3'|'UP2E'|'UP3E']    
+        wftype (str, optional): _Wafer Layout Type_  ['UP'|'UP2'|'UP3'|'UP2E'|'UP3E']
         method (str, optional): 'mean' or 'median' Trend
         title (str, optional): Title
         yrange (float, optional):  Range of Y-axis
         tyrange (float, optional): Range of 2nd Y-axis
-        keep_rng (bool, optional):  Keep the same range or Not
+        fix_scale (bool, optional):  Keep the same scale or Not
 
     Returns:
         fig (matplotlib.figure.Figure):  Figure
@@ -519,7 +534,7 @@ def twin_trends(df, y, ty, x='WIF_COL', yn='FF_ROW', xn='FF_COL', wftype='UP2',
     fig, gs = _new_wafer_fig(wftype)
     ymin, ymax = auto_vlim(df[y], vrange=yrange)
     tymin, tymax = auto_vlim(df[ty], vrange=tyrange)
-    if keep_rng and not all([yrange, tyrange]):
+    if fix_scale and not all([yrange, tyrange]):
         range_delta = (ymax-ymin)-(tymax-tymin)
         if range_delta >= 0:
             tymin -= range_delta/2
@@ -531,4 +546,47 @@ def twin_trends(df, y, ty, x='WIF_COL', yn='FF_ROW', xn='FF_COL', wftype='UP2',
                        color=TAB10_COLOR[0], tcolor=TAB10_COLOR[1], method=method)
     _tweak_trend(axes, ylim=(ymin, ymax), tylim=(
         tymin, tymax), twin=True, title=title)
+    return fig
+
+
+def wif_corrplot(df, x, y, yn='FF_ROW', xn='FF_COL', wftype='UP2', fit_deg=1, title=None):
+    """Create Correlation Plot between two continuous variables by Flash Field
+
+    Args:
+        df (pd.DataFrame): Wafer Data
+        x (str, optional): Column name(and x_label) of x-axis
+        y (str):  Column name of the variable to plot on the primary axis
+        yn (str, optional): Y Coordinate of Flash Field/Subplot
+        xn (str, optional): X Coordinate of Flash Field/Subplot
+        wftype (str, optional): _Wafer Layout Type_  ['UP'|'UP2'|'UP3'|'UP2E'|'UP3E']
+        fit_deg (int, optional): Polynomial fit degree
+        title (str, optional): Title
+
+    Returns:
+        fig (matplotlib.figure.Figure):  Figure
+    """
+    fig, gs = _new_wafer_fig(wftype)
+    xlim, ylim = auto_vlim(df[x]), auto_vlim(df[y])
+    axes = {}
+    for (row, col), ff in df.groupby([yn, xn]):
+        ff = ff.dropna(subset=[x, y])
+        ax = fig.add_subplot(gs[int(row-1), int(col-1)])
+        axes[(row, col)] = (ax, None)
+        if len(ff) > 2:
+            ax.scatter(ff[x], ff[y], color='b', s=6, alpha=0.5)
+            if fit_deg:
+                p = np.poly1d(np.polyfit(ff[x], ff[y], fit_deg))
+                x_fit = np.linspace(*xlim, 100)
+                y_fit = p(x_fit)
+                corr = np.corrcoef(ff[y], p(ff[x]))[0, 1]
+                rsq = corr**2
+                ax.plot(x_fit, y_fit, '--', color='orange')
+                ax.text(0.05, 0.85, f'$R^2$:{rsq:.2f}',
+                        transform=ax.transAxes, fontsize=7)
+        else:
+            ax.plot()
+    _tweak_trend(axes, x=x, ylim=ylim, title=title, xlim=xlim, xticks=None)
+    max_row = sorted(axes, key=lambda x: x[0])[-1][0]
+    ax = axes[(max_row//2, 1)][0]
+    ax.set_ylabel(y, rotation=90)
     return fig

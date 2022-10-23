@@ -1,0 +1,41 @@
+Path:
+    Output: D:/Temp
+    Server: //dn2prod11/FSPDC/INCOMING/HDWY
+    Wf_List: D:/Temp/wf_list.txt
+    
+IncMap:
+    ELG_RES: 0.2
+    WELG_RES: 0.2
+    MR: 10
+    HDI: 1
+    OSR: 1
+    PCM: 5
+    HR: 5
+    MR2: 10
+
+UAI_CODE:
+  - OK
+  - BINA
+  - BINB
+
+
+Y_lim:
+  vmin: None
+  vmax: None
+
+Colors:
+    Defect:
+      - lightgreen
+      - red
+      - orange
+      - blue
+      - purple
+      - cyan
+      - pink
+      - yellow
+      - lightblue
+      - gold
+      - darkblue
+      - gray
+      - darkred
+      - black
