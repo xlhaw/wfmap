@@ -40,7 +40,7 @@ fig = wif_trends(data, ['MR', 'MR2'])
 ```
 
 
-**Total running time of the script:** ( 0 minutes  3.681 seconds)
+**Total running time of the script:** ( 0 minutes  0.939 seconds)
 
 <div id="download_links"></div>
 

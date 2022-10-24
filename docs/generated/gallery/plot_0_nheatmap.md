@@ -38,16 +38,6 @@ plt.tight_layout()
 
 ![plot 0 nheatmap](./images/mkd_glr_plot_0_nheatmap_001.png){: .mkd-glr-single-img srcset="../images/mkd_glr_plot_0_nheatmap_001.png"}
 
-Out:
-{: .mkd-glr-script-out }
-
-```{.shell .mkd-glr-script-out-disp }
-E:\zwPython\py37\python-3.7.4.amd64\lib\site-packages\seaborn\matrix.py:70: DeprecationWarning: `np.bool` is a deprecated alias for the builtin `bool`. To silence this warning, use `bool` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.bool_` here.
-Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
-  mask = np.zeros(data.shape, np.bool)
-
-```
-
 
 
 
@@ -86,7 +76,7 @@ def auto_vlim(series, majority=94, n_sigma=3, vsigma=None, vrange=None):
 
 
 
-**Total running time of the script:** ( 0 minutes  0.793 seconds)
+**Total running time of the script:** ( 0 minutes  0.210 seconds)
 
 <div id="download_links"></div>
 

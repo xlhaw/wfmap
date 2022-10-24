@@ -1,13 +1,12 @@
 """
-IncomingMap
+IncomingMap 
 =================================
 > Combined WaferMap for Wafer Incoming Data
 
-This example demonstrates how to import a local module and how images are
-stacked when two plots are created in one code block. The variable ``N`` from
-the example 'Local module' (file ``local_module.py``) is imported in the code
-below. Further, note that when there is only one code block in an example, the
-output appears before the code block.
+IncomingMap is an horizontal concatenation of multiple WaferMap for wafer incoming data. `vsigmas` is a `dict` which collects the estimated value sigma for heatmap/colorbar range determination. Items which only lists in the `vsigmas` will be plotted. You can adjust the `vsigmas` &  `title` to customize your own wafermap combination.
+
+Below is a simple IncomingMap which contains two variables `MR` & `HDI` only.
+
 """
 
 from wfmap.data import load_data

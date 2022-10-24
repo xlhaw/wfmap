@@ -41,9 +41,7 @@ Out:
 {: .mkd-glr-script-out }
 
 ```{.shell .mkd-glr-script-out-disp }
-E:\zwPython\py37\python-3.7.4.amd64\lib\site-packages\seaborn\matrix.py:70: DeprecationWarning: `np.bool` is a deprecated alias for the builtin `bool`. To silence this warning, use `bool` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.bool_` here.
-Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
-  mask = np.zeros(data.shape, np.bool)
+/Users/xlhaw/opt/anaconda3/envs/py39a/lib/python3.9/site-packages/wfmap-1.0.4-py3.9.egg/wfmap/__init__.py:209: FutureWarning: The series.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
 
 ```
 
@@ -69,18 +67,14 @@ fig2 = defectmap(data, 'DEFECT', code_dict=code_dict)
 ```
 
 
-```{.pytb  .mkd-glr-script-err-disp}
-Traceback (most recent call last):
-  File "F:/wfmap/docs/examples/plot_3_defectmap.py", line 28, in <module>
-    fig2 = defectmap(data, 'DEFECT', code_dict=code_dict)
-TypeError: defectmap() got an unexpected keyword argument 'code_dict'
-```
+![DEFECT](./images/mkd_glr_plot_3_defectmap_002.png){: .mkd-glr-single-img srcset="../images/mkd_glr_plot_3_defectmap_002.png"}
 
 
 
 
 
-**Total running time of the script:** ( 0 minutes  0.706 seconds)
+
+**Total running time of the script:** ( 0 minutes  0.526 seconds)
 
 <div id="download_links"></div>
 

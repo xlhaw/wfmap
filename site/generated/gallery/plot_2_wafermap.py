@@ -1,17 +1,10 @@
 """
-WaferMap
+WaferMap `wafermap`
 =================================
-> Wafer Trend Charts by Flash Field For Very Different Two Variables
+> WaferMap with Distribution & Median Trend Subplots
 
-WaferMap uses hot color(red) presents high value and cold value(blue) presents low value.
+WaferMap add additional color distribution plot and trend charts by row/col around basic NumHeatmap.Color distribution plot shares the same limit as colorbar from heatmap. And vertical and horizonal trend charts is only diplayed when `wftype` is provided, since the grid line are using the pre-defined flash field boundary by `wftype`.
 
-uses hot/cold colors to the distribution and uniformity of
-
-nstrates how to import a local module and how images are
-stacked when two plots are created in one code block. The variable ``N`` from
-the example 'Local module' (file ``local_module.py``) is imported in the code
-below. Further, note that when there is only one code block in an example, the
-output appears before the code block.
 """
 
 from wfmap.data import load_data

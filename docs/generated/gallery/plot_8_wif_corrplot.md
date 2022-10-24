@@ -64,7 +64,7 @@ fig2 = wif_corrplot(data, 'MR', 'Fit2', fit_deg=2)
 
 
 
-**Total running time of the script:** ( 0 minutes  5.227 seconds)
+**Total running time of the script:** ( 0 minutes  1.378 seconds)
 
 <div id="download_links"></div>
 

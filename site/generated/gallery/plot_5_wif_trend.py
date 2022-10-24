@@ -1,25 +1,11 @@
 """
-WIF Trend
+WIF Trend `wif_trend`
 =================================
-> Wafer Trend Charts by Flash Field For Single Variables
+> Wafer Trend Charts by Flash Field For Single Variable
 
-This example demonstrates how to import a local module and how images are
-stacked when two plots are created in one code block. The variable ``N`` from
-the example 'Local module' (file ``local_module.py``) is imported in the code
-below. Further, note that when there is only one code block in an example, the
-output appears before the code block.
+WIF Trend gives you a clear view of within flash field & field to field tendency and distribution. Anormal waving or mountain shape pattern and shot-jump pattern could be easily spotted with this chart.
+Blue line is median trend by default which is less impacted by outliers, and orange area indicates the major distribution at the same `WIF_COL`.
 
-
-
-# mkdocs_gallery_thumbnail_number = 2
-
-# WIF Trend
-
-Flash Field to flash field variation,
-
-The Flash to flash variation is based
-
-API All Input
 """
 
 from wfmap.data import load_data
@@ -27,3 +13,9 @@ from wfmap import wif_trend
 
 data = load_data()
 fig = wif_trend(data, 'MR')
+
+# %%
+# The size of orange area is determined by `majority`, which means the center percentage of the whole distribution. To achieve similar quantile as boxplot could set `majority=50`.
+
+
+fig2 = wif_trend(data, 'MR', majority=50)

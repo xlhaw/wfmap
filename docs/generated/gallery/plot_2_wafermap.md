@@ -28,9 +28,30 @@ Out:
 {: .mkd-glr-script-out }
 
 ```{.shell .mkd-glr-script-out-disp }
-E:\zwPython\py37\python-3.7.4.amd64\lib\site-packages\seaborn\matrix.py:70: DeprecationWarning: `np.bool` is a deprecated alias for the builtin `bool`. To silence this warning, use `bool` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.bool_` here.
-Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
-  mask = np.zeros(data.shape, np.bool)
+/Users/xlhaw/opt/anaconda3/envs/py39a/lib/python3.9/site-packages/seaborn/cm.py:1582: UserWarning: Trying to register the cmap 'rocket' which already exists.
+  mpl_cm.register_cmap(_name, _cmap)
+/Users/xlhaw/opt/anaconda3/envs/py39a/lib/python3.9/site-packages/seaborn/cm.py:1583: UserWarning: Trying to register the cmap 'rocket_r' which already exists.
+  mpl_cm.register_cmap(_name + "_r", _cmap_r)
+/Users/xlhaw/opt/anaconda3/envs/py39a/lib/python3.9/site-packages/seaborn/cm.py:1582: UserWarning: Trying to register the cmap 'mako' which already exists.
+  mpl_cm.register_cmap(_name, _cmap)
+/Users/xlhaw/opt/anaconda3/envs/py39a/lib/python3.9/site-packages/seaborn/cm.py:1583: UserWarning: Trying to register the cmap 'mako_r' which already exists.
+  mpl_cm.register_cmap(_name + "_r", _cmap_r)
+/Users/xlhaw/opt/anaconda3/envs/py39a/lib/python3.9/site-packages/seaborn/cm.py:1582: UserWarning: Trying to register the cmap 'icefire' which already exists.
+  mpl_cm.register_cmap(_name, _cmap)
+/Users/xlhaw/opt/anaconda3/envs/py39a/lib/python3.9/site-packages/seaborn/cm.py:1583: UserWarning: Trying to register the cmap 'icefire_r' which already exists.
+  mpl_cm.register_cmap(_name + "_r", _cmap_r)
+/Users/xlhaw/opt/anaconda3/envs/py39a/lib/python3.9/site-packages/seaborn/cm.py:1582: UserWarning: Trying to register the cmap 'vlag' which already exists.
+  mpl_cm.register_cmap(_name, _cmap)
+/Users/xlhaw/opt/anaconda3/envs/py39a/lib/python3.9/site-packages/seaborn/cm.py:1583: UserWarning: Trying to register the cmap 'vlag_r' which already exists.
+  mpl_cm.register_cmap(_name + "_r", _cmap_r)
+/Users/xlhaw/opt/anaconda3/envs/py39a/lib/python3.9/site-packages/seaborn/cm.py:1582: UserWarning: Trying to register the cmap 'flare' which already exists.
+  mpl_cm.register_cmap(_name, _cmap)
+/Users/xlhaw/opt/anaconda3/envs/py39a/lib/python3.9/site-packages/seaborn/cm.py:1583: UserWarning: Trying to register the cmap 'flare_r' which already exists.
+  mpl_cm.register_cmap(_name + "_r", _cmap_r)
+/Users/xlhaw/opt/anaconda3/envs/py39a/lib/python3.9/site-packages/seaborn/cm.py:1582: UserWarning: Trying to register the cmap 'crest' which already exists.
+  mpl_cm.register_cmap(_name, _cmap)
+/Users/xlhaw/opt/anaconda3/envs/py39a/lib/python3.9/site-packages/seaborn/cm.py:1583: UserWarning: Trying to register the cmap 'crest_r' which already exists.
+  mpl_cm.register_cmap(_name + "_r", _cmap_r)
 
 ```
 
@@ -52,7 +73,7 @@ fig = wafermap(data, 'MR', wftype='UP3')
 ```
 
 
-**Total running time of the script:** ( 0 minutes  0.969 seconds)
+**Total running time of the script:** ( 0 minutes  0.379 seconds)
 
 <div id="download_links"></div>
 

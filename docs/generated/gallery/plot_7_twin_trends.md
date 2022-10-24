@@ -53,18 +53,14 @@ fig2 = twin_trends(data, 'MR', 'HDI', fix_scale=False)
 ```
 
 
-```{.pytb  .mkd-glr-script-err-disp}
-Traceback (most recent call last):
-  File "F:/wfmap/docs/examples/plot_7_twin_trends.py", line 25, in <module>
-    fig2 = twin_trends(data, 'MR', 'HDI', fix_scale=False)
-TypeError: twin_trends() got an unexpected keyword argument 'fix_scale'
-```
+![plot 7 twin trends](./images/mkd_glr_plot_7_twin_trends_002.png){: .mkd-glr-single-img srcset="../images/mkd_glr_plot_7_twin_trends_002.png"}
 
 
 
 
 
-**Total running time of the script:** ( 0 minutes  4.586 seconds)
+
+**Total running time of the script:** ( 0 minutes  2.916 seconds)
 
 <div id="download_links"></div>
 

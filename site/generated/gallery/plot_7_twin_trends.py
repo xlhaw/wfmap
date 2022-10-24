@@ -1,34 +1,25 @@
 """
-TwinY Trends
+TwinY Trends `twin_trends`
 =================================
-> Wafer Trend Charts by Flash Field For Very Different Two Variables
+> Wafer Trend Charts by Flash Field with Dual Y-axis
 
-This example demonstrates how to import a local module and how images are
-stacked when two plots are created in one code block. The variable ``N`` from
-the example 'Local module' (file ``local_module.py``) is imported in the code
-below. Further, note that when there is only one code block in an example, the
-output appears before the code block.
-
-_R can see the correlation between two variables more clear
+Have the advantage of double Y-axis, we're able to put two very different variables into same subplot for comparison. Take below chart for example, there's ~200ohm gap between `MR` &  `MRR`, yet two variables have similar sigma. You can find that `MR` basically overlaps with  `MRR`, the correlation between `MR` &  `MRR could be easily deduced from this chart.
 
 """
 
 from wfmap.data import load_data
 from wfmap import twin_trends
+import scipy.stats.distributions as dist
 
-data = load_data()
-fig = twin_trends(data, 'MR', 'HDI', keep_rng=False)
+data = load_data().query('80<MR<180')
+norm = dist.norm_gen()
+data['MRR'] = 200 + data['MR'] + \
+    norm.rvs(data['MR'].median(), data['MR'].std(), size=len(data['MR']))
 
+fig = twin_trends(data, 'MR', 'MRR')
 
-"""
-# Twin Trends
+# %%
 
-Some time it's . It's slightly different than put, it put the in secondary axis, some the two variables are have bigger gap or b.
+# When two variables not only have very different mean, the sigma is also not at the same level. The scale could no longer keep the same for Y & 2nd-Y axis, then need to adjust it as `fix_scale=False`.
 
-Take the Resistance of STO for example, before the OSR Wafer level rest is and while the STO_R(STO Resistance After Lapping)
-
-Comparat to or put ba in the same y-axis, more,
-
-With Different Hw and HDI_R can see the correlation between two variables more clear
-
-"""
+fig2 = twin_trends(data, 'MR', 'HDI', fix_scale=False)

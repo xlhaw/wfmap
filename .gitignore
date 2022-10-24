@@ -2,3 +2,5 @@
 .DS_Store
 build
 dist
+site
+wfmap.egg-info/
