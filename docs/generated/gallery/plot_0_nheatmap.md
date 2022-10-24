@@ -10,42 +10,87 @@
 !!! note
 
     Click [here](#download_links)
-    to download the full example code or to run this example in your browser via Binder
+    to download the full example code
 
 
-NumHeatmap
+Numerical Heatmap `num_heatmap`
 =================================
-> WaferMap for Numerical Variables
-This example demonstrates how to import a local module and how images are
-stacked when two plots are created in one code block. The variable ``N`` from
-the example 'Local module' (file ``local_module.py``) is imported in the code
-below. Further, note that when there is only one code block in an example, the
-output appears before the code block.
+> WaferMap for Numerical Variable
 
-<!-- GENERATED FROM PYTHON SOURCE LINES 11-17 -->
+`num_heatmap` uses the colormap `jet` which present high value with hot color(red) and low value with cold value(blue). This example demonstrates how to use the sample data to create simple WaferMap at ease.  `MAP_ROW` & `MAP_COL` are the default value for wafer `row` & `col`, need be replaced if it's different from your data.
 
-
-![lot 0 nheatmap](./images/mkd_glr_plot_0_nheatmap_001.png){: .mkd-glr-single-img srcset="/generated/gallery/images/mkd_glr_plot_0_nheatmap_001.png, /generated/gallery/images/mkd_glr_plot_0_nheatmap_001_2_0x.png 2.0x"}
-
-
-
-
+<!-- GENERATED FROM PYTHON SOURCE LINES 9-20 -->
 
 ```{.python }
 
+import numpy as np
 from wfmap.data import load_data
 from wfmap import num_heatmap
+import matplotlib.pyplot as plt
 
 data = load_data()
-fig = num_heatmap(data, 'MR')
+ax = num_heatmap(data, 'MR')
+plt.tight_layout()
+
+
 ```
 
 
-**Total running time of the script:** ( 0 minutes  5.811 seconds)
+![plot 0 nheatmap](./images/mkd_glr_plot_0_nheatmap_001.png){: .mkd-glr-single-img srcset="../images/mkd_glr_plot_0_nheatmap_001.png"}
+
+Out:
+{: .mkd-glr-script-out }
+
+```{.shell .mkd-glr-script-out-disp }
+E:\zwPython\py37\python-3.7.4.amd64\lib\site-packages\seaborn\matrix.py:70: DeprecationWarning: `np.bool` is a deprecated alias for the builtin `bool`. To silence this warning, use `bool` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.bool_` here.
+Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
+  mask = np.zeros(data.shape, np.bool)
+
+```
+
+
+
+
+
+<!-- GENERATED FROM PYTHON SOURCE LINES 21-22 -->
+
+Usually, the range of colorbar is auto inferred by majority of center population, which suggests the range might not be consistent for the same parameter by different wafers. If you want to have more subtle colorbar control, you can provide the est.sigma of value `vsigma` or value range `vrange` to keep the colorbar to have a fixed range.
+
+<!-- GENERATED FROM PYTHON SOURCE LINES 22-39 -->
+
+```{.python }
+
+
+def auto_vlim(series, majority=94, n_sigma=3, vsigma=None, vrange=None):
+    """
+    Infer the best range of a series for plotting
+    """
+    low, high = np.percentile(series.dropna(), [50-majority/2, 50+majority/2])
+    centers = series.where((series >= low) & (series <= high), np.nan)
+    if vsigma == None:
+        vsigma = centers.std()
+    if vrange:
+        vmin = (low+high-vrange)/2
+        vmax = (low+high+vrange)/2
+    else:
+        vmax = centers.mean()+n_sigma*vsigma
+        vmin = centers.mean()-n_sigma*vsigma
+    return vmin, vmax
+```
+
+
+
+
+
+
+
+
+
+**Total running time of the script:** ( 0 minutes  0.793 seconds)
 
 <div id="download_links"></div>
 
-[![Launch binder](./images/binder_badge_logo.svg)](https://mybinder.org/v2/gh/smarie/mkdocs-gallery/gh-pages?urlpath=lab/tree/notebooks/generated/gallery/plot_0_nheatmap.ipynb){ .center}
+
 
 [:fontawesome-solid-download: Download Python source code: plot_0_nheatmap.py](./plot_0_nheatmap.py){ .md-button .center}
 

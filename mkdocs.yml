@@ -2,7 +2,7 @@ site_name: WaferMap
 site_description: "wfmap Documentation"
 repo_url: https://github.com/xlhaw/wfmap/
 site_url: https://www.wfmap.ml/
-edit_uri: ./edit/main/docs
+edit_uri: ./edit/master/docs
 repo_name: "xlhaw/wfmap"
 copyright: Copyright &copy; 2017 - 2022 Leon Xiao
 site_author: Leon Xiao
@@ -24,15 +24,14 @@ theme:
         name: Switch to light mode
 
 nav:
-  - Getting Started:
-      - Home: index.md
-      - Data Guide: data.md
-      #- Gallery: generated/gallery
+  - Getting Started: index.md
+  - Data Preparation: data.md
+  - Example Gallery: generated/gallery
   - GUI Application: gui.md
   - API Reference: docstrings.md
   - ChangeLogs: changelog.md
   - Repository: "https://github.com/xlhaw/wfmap/"
-  #- Jupter Notebook : Demo Usage.ipynb
+
 
 extra:
   analytics:
@@ -58,19 +57,13 @@ markdown_extensions:
   - attr_list
   - codehilite
   - pymdownx.highlight
+  - pymdownx.inlinehilite
   - pymdownx.superfences
-  - pymdownx.emoji:
-      emoji_index: !!python/name:materialx.emoji.twemoji
-      emoji_generator: !!python/name:materialx.emoji.to_svg
-      options:
-        custom_icons:
-          - site/overrides/.icons
+  - pymdownx.emoji
 
 use_directory_urls: True
 plugins:
   - search
-  #- mermaid2
-  #- mknotebooks
   - mkdocstrings:
       enable_inventory: false
       custom_templates: templates
@@ -87,28 +80,15 @@ plugins:
       minify_css: true
       htmlmin_opts:
         remove_comments: true
-  # - gallery:
-  #     conf_script: docs/gallery_conf.py # Base conf. Possibly modified by items below
-  #     examples_dirs:
-  #       - docs/examples # path to your example scripts, relative to mkdocs.yml
-  #     gallery_dirs:
-  #       - docs/generated/gallery # where to save gallery generated output. Note that you may or may not include them in
-  #     backreferences_dir: docs/generated/backreferences # where to generate the back references summary
-  #     doc_module: ["mkdocs_gallery", "numpy"]
-  #     image_scrapers: matplotlib
-  #     compress_images: ["images", "thumbnails"]
-  #     within_subsection_order: FileNameSortKey
-  #     binder:
-  #       org: xlhaw
-  #       repo: wfmap
-  #       branch: main # Use a branch that hosts your docs.
-  #       #        binderhub_url: https://mybinder.org
-  #       dependencies: docs/requirements.txt # binder configuration files
-  #       notebooks_dir: notebooks # Notebooks for Binder will be copied to this dir (relative to built doc root).
-  #       use_jupyter_lab: True # Binder links will start Jupyter Lab instead of the Jupyter Notebook interface.
-  #     show_memory: True
-  #     matplotlib_animations: True
-  #     image_srcset: ["2x"]
+  - gallery:
+      conf_script: docs/gallery_conf.py 
+      examples_dirs:
+        - docs/examples 
+      gallery_dirs:
+        - docs/generated/gallery 
+      backreferences_dir: docs/generated/backreferences
+      show_memory: False
+
 
 extra_javascript:
   - https://unpkg.com/mermaid/dist/mermaid.min.js

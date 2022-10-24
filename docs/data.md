@@ -1,6 +1,6 @@
-# Data Guide
+# Data Preparation
 
-This chapter will guide you through the preparation of wafer data. You will get an overview of data format used in `wfmap`, learn the wafer mapping definition and how to merge it with other data source.
+This chapter will guide you through the preparation of wafer data. You will get an overview of the data format used in `wfmap`, learn the wafer mapping definition in detail and how to merge it with other data source.
 
 ## Definition
 
@@ -19,7 +19,9 @@ Wafer mapping definition used in this package is showed in follwing table, which
 
 > `FF` is short for `FlashField`, `WIF` stands for `Within FlashField`.
 
-First two parameters are required in wafer heatmap related plots and succedent 4 parameters are need for trends charts related plots. So please make sure that you have either transformed your data in similar format or pass the correct parameters to corresponding functions.
+!!! warning
+    First two parameters are required in wafer heatmap related plots and succedent 4 parameters are need for trends charts related plots. So please make sure that you have either transformed your data in similar format or pass the correct parameters to corresponding functions.
+
 
 Below is an illustration for above definition.
 

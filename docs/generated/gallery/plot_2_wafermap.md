@@ -10,31 +10,37 @@
 !!! note
 
     Click [here](#download_links)
-    to download the full example code or to run this example in your browser via Binder
+    to download the full example code
 
 
-WaferMap
+WaferMap `wafermap`
 =================================
-> Wafer Trend Charts by Flash Field For Very Different Two Variables
+> WaferMap with Distribution & Median Trend Subplots
 
-WaferMap uses hot color(red) presents high value and cold value(blue) presents low value.
+WaferMap add additional color distribution plot and trend charts by row/col around basic NumHeatmap.Color distribution plot shares the same limit as colorbar from heatmap. And vertical and horizonal trend charts is only diplayed when `wftype` is provided, since the grid line are using the pre-defined flash field boundary by `wftype`.
 
-uses hot/cold colors to the distribution and uniformity of
-
-nstrates how to import a local module and how images are
-stacked when two plots are created in one code block. The variable ``N`` from
-the example 'Local module' (file ``local_module.py``) is imported in the code
-below. Further, note that when there is only one code block in an example, the
-output appears before the code block.
-
-<!-- GENERATED FROM PYTHON SOURCE LINES 16-22 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 9-15 -->
 
 
-![lot 2 wafermap](./images/mkd_glr_plot_2_wafermap_001.png){: .mkd-glr-single-img srcset="/generated/gallery/images/mkd_glr_plot_2_wafermap_001.png, /generated/gallery/images/mkd_glr_plot_2_wafermap_001_2_0x.png 2.0x"}
+![plot 2 wafermap](./images/mkd_glr_plot_2_wafermap_001.png){: .mkd-glr-single-img srcset="../images/mkd_glr_plot_2_wafermap_001.png"}
+
+Out:
+{: .mkd-glr-script-out }
+
+```{.shell .mkd-glr-script-out-disp }
+E:\zwPython\py37\python-3.7.4.amd64\lib\site-packages\seaborn\matrix.py:70: DeprecationWarning: `np.bool` is a deprecated alias for the builtin `bool`. To silence this warning, use `bool` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.bool_` here.
+Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
+  mask = np.zeros(data.shape, np.bool)
+
+```
 
 
 
 
+
+
+
+<br />
 
 ```{.python }
 
@@ -46,11 +52,11 @@ fig = wafermap(data, 'MR', wftype='UP3')
 ```
 
 
-**Total running time of the script:** ( 0 minutes  3.716 seconds)
+**Total running time of the script:** ( 0 minutes  0.969 seconds)
 
 <div id="download_links"></div>
 
-[![Launch binder](./images/binder_badge_logo.svg)](https://mybinder.org/v2/gh/smarie/mkdocs-gallery/gh-pages?urlpath=lab/tree/notebooks/generated/gallery/plot_2_wafermap.ipynb){ .center}
+
 
 [:fontawesome-solid-download: Download Python source code: plot_2_wafermap.py](./plot_2_wafermap.py){ .md-button .center}
 

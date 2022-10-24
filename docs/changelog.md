@@ -7,14 +7,14 @@ All notable changes to the `wfmap` package will be documented in this file.
 ### Bug Fixes
 
 - Fix matplotlib warning
-- Fix  Thanks
-- Fix legend display issue in `wif_trends` and add limitation on max plot items
+- Thanks to [@benfroelich](https://github.com/benfroelich), fix bug where wafermap fn wasn't passing on non-default coord col names [#6](https://github.com/xlhaw/wfmap/pull/6)
+- Fix legend display issue in `wif_trends` and add limitation on max items to plot
 
 ### Features
 
 - Add new param `majority` in `wif_trend` for  control
 - Add `wif_corrplot` for correlation plot
-- Documentation Online
+- Documentation Site https://www.wfmap.ml
 
 ## [1.0.2]
 

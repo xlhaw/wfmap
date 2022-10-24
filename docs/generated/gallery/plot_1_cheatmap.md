@@ -10,26 +10,43 @@
 !!! note
 
     Click [here](#download_links)
-    to download the full example code or to run this example in your browser via Binder
+    to download the full example code
 
 
-CatHeatmap
+Categorical Heatmap `cat_heatmap`
 =================================
-> WaferMap for Categorical Variables
-This example demonstrates how to import a local module and how images are
-stacked when two plots are created in one code block. The variable ``N`` from
-the example 'Local module' (file ``local_module.py``) is imported in the code
-below. Further, note that when there is only one code block in an example, the
-output appears before the code block.
+> WaferMap for Categorical Variable
 
-<!-- GENERATED FROM PYTHON SOURCE LINES 11-19 -->
+`cat_heatmap` is essentially a variant of `num_heatmap`. Internally, the categorical variable is  first transformed to integers according to the rank of each unique count. And then plot the heatmap using the intermediate numbers.
 
+Below example demonstrates the simplest case of creating a categorical heatmap. You can have more customization by providing `code_dict` if you want to have some transformation before the plotting, eg. merge some items or change perticular item name. You can also set the `qty_limit` to control the max items will be presented in the plot, categories which are beyond the `qty_limit` will be counted together as `Others`.
 
-![lot 1 cheatmap](./images/mkd_glr_plot_1_cheatmap_001.png){: .mkd-glr-single-img srcset="/generated/gallery/images/mkd_glr_plot_1_cheatmap_001.png, /generated/gallery/images/mkd_glr_plot_1_cheatmap_001_2_0x.png 2.0x"}
+<!-- GENERATED FROM PYTHON SOURCE LINES 11-17 -->
 
 
+![plot 1 cheatmap](./images/mkd_glr_plot_1_cheatmap_001.png){: .mkd-glr-single-img srcset="../images/mkd_glr_plot_1_cheatmap_001.png"}
+
+Out:
+{: .mkd-glr-script-out }
+
+```{.shell .mkd-glr-script-out-disp }
+E:\zwPython\py37\python-3.7.4.amd64\lib\site-packages\win32\lib\pywintypes.py:2: DeprecationWarning: the imp module is deprecated in favour of importlib; see the module's documentation for alternative uses
+  import imp, sys, os
+E:\zwPython\py37\python-3.7.4.amd64\lib\site-packages\sphinx\util\rst.py:58: DeprecationWarning: 'environmentfilter' is renamed to 'pass_environment', the old name will be removed in Jinja 3.1.
+  def heading(env: Environment, text: str, level: int = 1) -> str:
+E:\zwPython\py37\python-3.7.4.amd64\lib\site-packages\seaborn\matrix.py:70: DeprecationWarning: `np.bool` is a deprecated alias for the builtin `bool`. To silence this warning, use `bool` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.bool_` here.
+Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
+  mask = np.zeros(data.shape, np.bool)
+
+```
 
 
+
+
+
+
+
+<br />
 
 ```{.python }
 
@@ -38,16 +55,14 @@ from wfmap import cat_heatmap
 
 data = load_data()
 fig = cat_heatmap(data, 'DEFECT')
-
-
 ```
 
 
-**Total running time of the script:** ( 0 minutes  1.131 seconds)
+**Total running time of the script:** ( 0 minutes  36.984 seconds)
 
 <div id="download_links"></div>
 
-[![Launch binder](./images/binder_badge_logo.svg)](https://mybinder.org/v2/gh/smarie/mkdocs-gallery/gh-pages?urlpath=lab/tree/notebooks/generated/gallery/plot_1_cheatmap.ipynb){ .center}
+
 
 [:fontawesome-solid-download: Download Python source code: plot_1_cheatmap.py](./plot_1_cheatmap.py){ .md-button .center}
 

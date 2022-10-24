@@ -10,27 +10,39 @@
 !!! note
 
     Click [here](#download_links)
-    to download the full example code or to run this example in your browser via Binder
+    to download the full example code
 
 
-IncomingMap
+IncomingMap 
 =================================
 > Combined WaferMap for Wafer Incoming Data
 
-This example demonstrates how to import a local module and how images are
-stacked when two plots are created in one code block. The variable ``N`` from
-the example 'Local module' (file ``local_module.py``) is imported in the code
-below. Further, note that when there is only one code block in an example, the
-output appears before the code block.
+IncomingMap is an horizontal concatenation of multiple WaferMap for wafer incoming data. `vsigmas` is a `dict` which collects the estimated value sigma for heatmap/colorbar range determination. Items which only lists in the `vsigmas` will be plotted. You can adjust the `vsigmas` &  `title` to customize your own wafermap combination.
 
-<!-- GENERATED FROM PYTHON SOURCE LINES 12-18 -->
+Below is a simple IncomingMap which contains two variables `MR` & `HDI` only.
+
+<!-- GENERATED FROM PYTHON SOURCE LINES 11-17 -->
 
 
-![None, MR, HDI](./images/mkd_glr_plot_4_incmap_001.png){: .mkd-glr-single-img srcset="/generated/gallery/images/mkd_glr_plot_4_incmap_001.png, /generated/gallery/images/mkd_glr_plot_4_incmap_001_2_0x.png 2.0x"}
+![MR, HDI](./images/mkd_glr_plot_4_incmap_001.png){: .mkd-glr-single-img srcset="../images/mkd_glr_plot_4_incmap_001.png"}
+
+Out:
+{: .mkd-glr-script-out }
+
+```{.shell .mkd-glr-script-out-disp }
+E:\zwPython\py37\python-3.7.4.amd64\lib\site-packages\seaborn\matrix.py:70: DeprecationWarning: `np.bool` is a deprecated alias for the builtin `bool`. To silence this warning, use `bool` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.bool_` here.
+Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
+  mask = np.zeros(data.shape, np.bool)
+
+```
 
 
 
 
+
+
+
+<br />
 
 ```{.python }
 
@@ -42,11 +54,11 @@ fig = create_incmap(data, vsigmas={'MR': 10, 'HDI': 1})
 ```
 
 
-**Total running time of the script:** ( 0 minutes  2.385 seconds)
+**Total running time of the script:** ( 0 minutes  0.955 seconds)
 
 <div id="download_links"></div>
 
-[![Launch binder](./images/binder_badge_logo.svg)](https://mybinder.org/v2/gh/smarie/mkdocs-gallery/gh-pages?urlpath=lab/tree/notebooks/generated/gallery/plot_4_incmap.ipynb){ .center}
+
 
 [:fontawesome-solid-download: Download Python source code: plot_4_incmap.py](./plot_4_incmap.py){ .md-button .center}
 

@@ -1,13 +1,12 @@
 """
-WIF Trends
+WIF Trends `wif_trends`
 =================================
-> Wafer Trend Charts by Flash Field For Multiple Variables within Similar Range
+> Wafer Trend Charts by Flash Field For Multiple Variables
 
-This example demonstrates how to import a local module and how images are
-stacked when two plots are created in one code block. The variable ``N`` from
-the example 'Local module' (file ``local_module.py``) is imported in the code
-below. Further, note that when there is only one code block in an example, the
-output appears before the code block.
+Slightly different from `wif_trend`, WIF Trends removes the orange area highlight for major distribution and focus on the median trend comparison between different variables. Further, for the sake of brevity and aesthetics, max number of variables to plot is limited to 4.
+
+Below is an example trend chart of the wafer level MR Resistence for both R1 & R2. Please be noted this chart is only recommended for variables which share similar range. When the mean or sigma is much different, please consider using the `twin_trends` instead.
+
 """
 
 from wfmap.data import load_data

@@ -10,55 +10,81 @@
 !!! note
 
     Click [here](#download_links)
-    to download the full example code or to run this example in your browser via Binder
+    to download the full example code
 
 
-DefectMap
+DefectMap `defectmap`
 =================================
 > Wafer DefectMap with Pareto Subplot
 
-This example demonstrates how to import a local module and how images are
-stacked when two plots are created in one code block. The variable ``N`` from
-the example 'Local module' (file ``local_module.py``) is imported in the code
-below. Further, note that when there is only one code block in an example, the
-output appears before the code block.
+DefectMap is aimed for defect analysis, beside the defect distribution by `cat_heatmap`, yield summary and top defect statistics are also applied by using inset pie chart and bar chart subplot.
 
-<!-- GENERATED FROM PYTHON SOURCE LINES 12-18 -->
+Unlike in the `cat_heatmap`, categories are ordered by unique count in default. `defectmap` use the 'OK' as the top category and set it with `lightgreen` color. You can UAI other codes eg. 'BINA','BINB' as `OK` by update the `ok_codes`.
 
-
-![DEFECT](./images/mkd_glr_plot_3_defectmap_001.png){: .mkd-glr-single-img srcset="/generated/gallery/images/mkd_glr_plot_3_defectmap_001.png, /generated/gallery/images/mkd_glr_plot_3_defectmap_001_2_0x.png 2.0x"}
-
-Out:
-{: .mkd-glr-script-out }
-
-```{.shell .mkd-glr-script-out-disp }
-/Users/xlhaw/opt/anaconda3/lib/python3.7/site-packages/wfmap-1.0.2.dev0-py3.7.egg/wfmap/__init__.py:319: UserWarning: This figure includes Axes that are not compatible with tight_layout, so results might be incorrect.
-
-```
-
-
-
-
-
-
-
-<br />
+<!-- GENERATED FROM PYTHON SOURCE LINES 11-19 -->
 
 ```{.python }
 
+import random
 from wfmap.data import load_data
 from wfmap import defectmap
 
 data = load_data()
 fig = defectmap(data, 'DEFECT')
+
 ```
 
 
-**Total running time of the script:** ( 0 minutes  1.998 seconds)
+![DEFECT](./images/mkd_glr_plot_3_defectmap_001.png){: .mkd-glr-single-img srcset="../images/mkd_glr_plot_3_defectmap_001.png"}
+
+Out:
+{: .mkd-glr-script-out }
+
+```{.shell .mkd-glr-script-out-disp }
+E:\zwPython\py37\python-3.7.4.amd64\lib\site-packages\seaborn\matrix.py:70: DeprecationWarning: `np.bool` is a deprecated alias for the builtin `bool`. To silence this warning, use `bool` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.bool_` here.
+Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
+  mask = np.zeros(data.shape, np.bool)
+
+```
+
+
+
+
+
+<!-- GENERATED FROM PYTHON SOURCE LINES 20-21 -->
+
+Above example used the default defect code from sample data, you change it to more reader-friendly and meaningful remark by modify the `code_dict` as below.
+
+<!-- GENERATED FROM PYTHON SOURCE LINES 21-29 -->
+
+```{.python }
+
+code_dict = {}
+for code in data['DEFECT'].unique():
+    if code.startswith('S'):
+        code_dict[code] = random.choice(
+            ['QST Rej', 'HDD Rej', 'DP Rej', 'VM Rej'])
+
+fig2 = defectmap(data, 'DEFECT', code_dict=code_dict)
+```
+
+
+```{.pytb  .mkd-glr-script-err-disp}
+Traceback (most recent call last):
+  File "F:/wfmap/docs/examples/plot_3_defectmap.py", line 28, in <module>
+    fig2 = defectmap(data, 'DEFECT', code_dict=code_dict)
+TypeError: defectmap() got an unexpected keyword argument 'code_dict'
+```
+
+
+
+
+
+**Total running time of the script:** ( 0 minutes  0.706 seconds)
 
 <div id="download_links"></div>
 
-[![Launch binder](./images/binder_badge_logo.svg)](https://mybinder.org/v2/gh/smarie/mkdocs-gallery/gh-pages?urlpath=lab/tree/notebooks/generated/gallery/plot_3_defectmap.ipynb){ .center}
+
 
 [:fontawesome-solid-download: Download Python source code: plot_3_defectmap.py](./plot_3_defectmap.py){ .md-button .center}
 
